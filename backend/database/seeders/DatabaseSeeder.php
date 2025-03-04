@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Models\Article;
-use App\Models\Tag;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,19 +23,24 @@ class DatabaseSeeder extends Seeder
         // ]);
 
 
-        $article = Article::create([
-            'title' => 'Welcome to ecoal25',
-            'content' => '<h1>Hello from ecoal</h1><p>Nice to see you in <strong>Lens</strong>. Enjoy !</p>',
-            'thumbnailURL' => 'ecoal.jpg',
-            'mediaType' => 'image',
-            'mediaURL' => 'ecoal.jpg',
-            'leadStory' => false
-        ]);
-     
-        $tag1 = Tag::create(['name' => 'ecoal25']);
-        $tag2 = Tag::create(['name' => 'react']);
+//        $article = Article::create([
+//            'title' => 'Welcome to ecoal25',
+//            'content' => '<h1>Hello from ecoal</h1><p>Nice to see you in <strong>Lens</strong>. Enjoy !</p>',
+//            'thumbnailURL' => 'ecoal.jpg',
+//            'mediaType' => 'image',
+//            'mediaURL' => 'ecoal.jpg',
+//            'leadStory' => false
+//        ]);
 
-        $article->tags()->attach([$tag1->id, $tag2->id]);
-       
+        $this->call([
+            CategorySeeder::class,
+            ArticleSeeder::class,
+        ]);
+
+        $tag1 = Category::create(['name' => 'ecoal25']);
+        $tag2 = Category::create(['name' => 'react']);
+
+//        $article->tags()->attach([$tag1->id, $tag2->id]);
+
     }
 }

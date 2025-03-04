@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /**
+         * id string, image string, title string, description string, date string, categories []
+         */
+
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->string('title');
-            $table->text('content');
-            $table->string('thumbnailURL');
-            $table->string('mediaType')->nullable();
-            $table->string('mediaURL')->nullable();
-            $table->boolean('leadStory');
+            $table->string('description');
+            $table->string('date');
             $table->timestamps();
         });
     }
