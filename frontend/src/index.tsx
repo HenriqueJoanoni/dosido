@@ -1,20 +1,23 @@
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import Home from './pages/Home';
-import reportWebVitals from './reportWebVitals';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import Home from "./pages/Home";
+import reportWebVitals from "./reportWebVitals";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { ConfigProvider } from "antd";
+import { themeConfig } from "./constants/theme";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 root.render(
-  <BrowserRouter>
-    <Routes>
+  <ConfigProvider theme={{ token: themeConfig }}>
+    <BrowserRouter>
+      <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
-  </BrowserRouter>
+    </BrowserRouter>
+  </ConfigProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
