@@ -9,11 +9,10 @@ const ArticleListItem = ({
   article: IArticleListItem;
   onClick(): void;
 }) => {
-  const { id, title, description, image } = article;
+  const { title, description, image } = article;
 
   return (
     <CardStyled
-      key={String(article.id)}
       hoverable
       style={{ width: "100%" }}
       cover={<img alt={title} src={image} />}
