@@ -23,7 +23,7 @@ export const LogoStyled = styled.img`
 
 export const IconsContainer = styled(Flex)`
   gap: 10px;
-  min-width: 50px;
+  min-width: 75px;
 
   img {
     cursor: pointer;
