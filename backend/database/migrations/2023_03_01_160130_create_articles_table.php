@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('date');
+            $table->boolean('premium')->default(true);
             $table->timestamps();
         });
     }

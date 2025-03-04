@@ -20,7 +20,8 @@ class ArticleSeeder extends Seeder
                 "title" => "The Return of Vinyl: Why Records Are Making a Comeback",
                 "description" => "A deep dive into why vinyl records are resurging in popularity among music lovers.",
                 "date" => "2025-03-04",
-                "categories" => 1, // Use category ID directly
+                "categories" => 1,
+                "premium" => false,
             ],
             [
                 "image" => "https://plus.unsplash.com/premium_photo-1683140707316-42df87760f3f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bXVzaWN8ZW58MHx8MHx8fDA%3D",
@@ -28,6 +29,7 @@ class ArticleSeeder extends Seeder
                 "description" => "A breakdown of The Weekend's latest tour stop and the highlights of the night.",
                 "date" => "2025-02-15",
                 "categories" => 2,
+                "premium" => true,
             ],
             [
                 "image" => "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bXVzaWN8ZW58MHx8MHx8fDA%3D",
@@ -35,6 +37,7 @@ class ArticleSeeder extends Seeder
                 "description" => "Everything you need to know about the upcoming Coachella festival, including artist lineup and event details.",
                 "date" => "2025-01-10",
                 "categories" => 3,
+                "premium" => false,
             ],
             [
                 "image" => "https://images.unsplash.com/photo-1507838153414-b4b713384a76?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bXVzaWN8ZW58MHx8MHx8fDA%3D",
@@ -42,6 +45,7 @@ class ArticleSeeder extends Seeder
                 "description" => "An in-depth biography of Queen's legendary frontman and his impact on music history.",
                 "date" => "2024-12-20",
                 "categories" => 4,
+                "premium" => true,
             ],
             [
                 "image" => "https://images.unsplash.com/photo-1471478331149-c72f17e33c73?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fG11c2ljfGVufDB8fDB8fHww",
@@ -49,6 +53,7 @@ class ArticleSeeder extends Seeder
                 "description" => "Analyzing the themes, sound, and impact of Taylor Swift's newest release.",
                 "date" => "2024-11-05",
                 "categories" => 2,
+                "premium" => false,
             ]
         ];
 
