@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import reportWebVitals from "./reportWebVitals";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
@@ -14,7 +16,9 @@ root.render(
   <ConfigProvider theme={{ token: themeConfig }}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   </ConfigProvider>
