@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 });
 
 const getArticles = async (search: string) => {
-  const { data } = await axiosInstace.get<IArticleListItem[]>(
+  const { data } = await axiosInstance.get<IArticleListItem[]>(
     "/articles" + !!search ? `?search=${search}` : ""
   );
 
@@ -15,7 +15,7 @@ const getArticles = async (search: string) => {
 };
 
 const getArticleById = async (id: string) => {
-  const { data } = await axiosInstace.get<IArticleListItem>(`/articles/${id}`);
+  const { data } = await axiosInstance.get<IArticleListItem>(`/articles/${id}`);
 
   return data;
 };
