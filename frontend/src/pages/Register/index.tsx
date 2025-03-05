@@ -3,6 +3,8 @@ import { Input, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { axiosInstance } from "../../api";
+import { Container } from "../Home/styles";
+
 
 function Register() {
   const [name, setName] = useState("");
@@ -51,6 +53,7 @@ function Register() {
   };
 
   return (
+    <Container>
     <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
       <h2>Register</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -97,6 +100,7 @@ function Register() {
         <Link to="/login">Already have an account? Log in</Link>
       </div>
     </div>
+    </Container>
   );
 }
 

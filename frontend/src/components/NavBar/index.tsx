@@ -34,7 +34,10 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
           {!!onSearch && (
             <img src="/icons/search.svg" onClick={toggleExpandSearch} />
           )}
-          <img src="/icons/user.svg" />
+       
+          <Link to="/login">
+            <img src="/icons/user.svg" />
+          </Link>
         </IconsContainer>
       </Container>
     </div>
