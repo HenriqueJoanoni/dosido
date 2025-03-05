@@ -20,9 +20,10 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
         <Link to="/">
           <LogoStyled src="/logo.webp" />
         </Link>
-        <IconsContainer>
+        <IconsContainer style={{ justifyContent: "flex-end" }}>
           {!!onSearch && (
             <SearchStyled
+              size="small"
               placeholder="e.g: Bob Dylan News"
               onSearch={onSearch}
               onClear={() => onSearch("")}

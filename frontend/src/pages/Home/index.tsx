@@ -1,5 +1,5 @@
 import data from "../../mocks/articles.json";
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import {
   ListContainer,
   ImageStyled,
@@ -18,6 +18,7 @@ import moment from "moment";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   const previewArticle = data[0];
 
