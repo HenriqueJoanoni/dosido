@@ -18,7 +18,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
           <img src="/icons/menu.svg" />
         </IconsContainer>
         <Link to="/">
-          <LogoStyled src="/logo.webp" />
+          <LogoStyled src="/logo.png" />
         </Link>
         <IconsContainer style={{ justifyContent: "flex-end" }}>
           {!!onSearch && (

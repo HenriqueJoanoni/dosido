@@ -25,7 +25,7 @@ function Login() {
 
   return (
     <Container>
-      <div>
+      <div style={{ paddingTop: '100px' }}>
         <LoginCard>
           <h2>Login</h2>
           {error && <Message type="error">{error}</Message>}
@@ -48,7 +48,8 @@ function Login() {
               />
             </div>
             <LoginButton>
-              Log In
+              <Link to="/">Log in</Link>
+              
             </LoginButton>
           </FormContainer>
           <AuthLink>
