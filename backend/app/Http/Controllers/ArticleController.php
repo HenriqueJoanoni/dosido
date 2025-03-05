@@ -29,15 +29,25 @@ class ArticleController extends Controller
         return response()->json($processedArticles, 200);
     }
 
-    public function searchBar(Request $request)
+    public function searchBar(Request $request): JsonResponse
     {
         $search = $request->get('search');
-        $articles = Article::where('title', 'like', '%'.$search.'%')->get();
 
-        return response()->json($articles, 200);
+        $articles = Article::where(function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhereHas('categories', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+        })->get();
+
+        if ($articles) {
+            return response()->json($articles, 200);
+        }
+
+        return response()->json([], 404);
     }
 
-    public function getArticle(int $id)
+    public function getArticle(int $id): JsonResponse
     {
         $article = Article::where('id', $id)->first();
         if ($article) {
