@@ -13,13 +13,14 @@ class ArticleController extends Controller
 {
     public function getAllArticles(): JsonResponse
     {
+        usleep(500);
         $articles = Article::all();
 
         $isAuthenticated = Auth::check();
 
         $processedArticles = $articles->map(function ($article) use ($isAuthenticated) {
             if ($article->premium && !$isAuthenticated) {
-                $article->description = GeneralHelper::str_limit_words($article->description, 20);
+                $article->description = GeneralHelper::str_limit_words($article->description, 4);
             }
 
             return $article;
@@ -34,5 +35,15 @@ class ArticleController extends Controller
         $articles = Article::where('title', 'like', '%'.$search.'%')->get();
 
         return response()->json($articles, 200);
+    }
+
+    public function getArticle(int $id)
+    {
+        $article = Article::where('id', $id)->first();
+        if ($article) {
+            return response()->json($article, 200);
+        }
+
+        return response()->json([], 404);
     }
 }
