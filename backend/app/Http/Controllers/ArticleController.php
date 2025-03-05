@@ -27,11 +27,12 @@ class ArticleController extends Controller
 
         return response()->json($processedArticles, 200);
     }
+
     public function searchBar(Request $request)
     {
         $search = $request->get('search');
         $articles = Article::where('title', 'like', '%'.$search.'%')->get();
 
         return response()->json($articles, 200);
-    } 
+    }
 }
