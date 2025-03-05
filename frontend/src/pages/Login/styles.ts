@@ -4,15 +4,16 @@ import { Card } from "antd";
 export const LoginCard = styled(Card)`
   width: 100%;
   max-width: 400px;
-  margin: 50px auto;
+  margin: auto;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+ 
   @media (max-width: 480px) {
     max-width: 90%;
-    margin: 20px auto;
-    padding: 25px;
+    margin: auto;
+    padding: 35px;
+  
   }
 `;
 
@@ -35,7 +36,7 @@ export const Message = styled.p<{ type: "success" | "error" }>`
 export const LoginButton = styled.button`
   width: 100%;
   padding: 12px;
-  background-color: #1890ff;
+  background-color: #1B1749;
   border: none;
   border-radius: 5px;
   color: white;
@@ -60,7 +61,7 @@ export const AuthLink = styled.p`
   margin-top: 10px;
 
   a {
-    color: #1890ff;
+    color: #1B1749;
     font-weight: bold;
     text-decoration: none;
 
