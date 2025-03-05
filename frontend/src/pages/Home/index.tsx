@@ -15,10 +15,12 @@ import NavBar from "../../components/NavBar";
 import { Typography } from "antd";
 import { limitText } from "../../utils";
 import moment from "moment";
+import {useGetArticles} from "../../api";
 
 const Home = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const {data:dsa} = useGetArticles(search)
 
   const previewArticle = data[0];
 
@@ -27,7 +29,7 @@ const Home = () => {
   };
 
   const onSearch = (value: string) => {
-    console.log({ value });
+    setSearch(value)
   };
 
   return (

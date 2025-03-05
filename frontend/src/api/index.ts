@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
 
 const getArticles = async (search: string) => {
   const { data } = await axiosInstance.get<IArticleListItem[]>(
-    "/articles" + !!search ? `?search=${search}` : ""
+    "/articles", {headers: {'Content-Type': 'application/json', Accept: 'application/json'}, params: {search}}
   );
 
   return data;
