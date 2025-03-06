@@ -11,40 +11,32 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    public function getAllArticles(): JsonResponse
+    public function getAllArticles(Request $request): JsonResponse
     {
         usleep(500);
-        $articles = Article::all();
-
         $isAuthenticated = Auth::check();
+        $searchTerm = $request->query('search');
+        $query = Article::with('categories');
+
+        if ($searchTerm) {
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhereHas('categories', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', "%{$searchTerm}%");
+                    });
+            });
+        }
+
+        $articles = $query->get();
 
         $processedArticles = $articles->map(function ($article) use ($isAuthenticated) {
             if ($article->premium && !$isAuthenticated) {
                 $article->description = GeneralHelper::str_limit_words($article->description, 4);
             }
-
             return $article;
         });
 
         return response()->json($processedArticles, 200);
-    }
-
-    public function searchBar(Request $request): JsonResponse
-    {
-        $search = $request->get('search');
-
-        $articles = Article::where(function ($query) use ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
-                ->orWhereHas('categories', function ($q) use ($search) {
-                    $q->where('name', 'like', '%' . $search . '%');
-                });
-        })->get();
-
-        if ($articles) {
-            return response()->json($articles, 200);
-        }
-
-        return response()->json([], 404);
     }
 
     public function getArticle(int $id): JsonResponse
