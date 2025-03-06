@@ -12,7 +12,7 @@ import {
 import ArticleListItem from "../../components/ArticleListItem";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar";
-import { Typography } from "antd";
+import { Skeleton, Typography } from "antd";
 import { limitText } from "../../utils";
 import moment from "moment";
 import { useGetArticles } from "../../api";
@@ -40,6 +40,18 @@ const Home = () => {
     <Container>
       <NavBar onSearch={onSearch} />
       <ScrollStyled>
+        {isLoading && (
+          <PreviewArticleContainer>
+            <Skeleton.Image style={{ width: "100vw", height: 200 }} />
+
+            <PreviewContentContainer>
+              <Skeleton.Input style={{ width: "80%" }} />
+              <Skeleton.Input
+                style={{ width: "100%", marginTop: 10, marginBottom: 20 }}
+              />
+            </PreviewContentContainer>
+          </PreviewArticleContainer>
+        )}
         {!!previewArticle && (
           <>
             <PreviewArticleContainer

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input, Tag, Select } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import NavBar from "../../components/NavBar";
@@ -8,7 +8,8 @@ import { AuthCard, Label, AuthButton, Message, FormContainer } from "./styles";
 
 const predefinedTags = ["Technology", "Health", "Science", "Education", "Sports", "Entertainment"];
 
-function AddArticle() {
+function UpdateArticle() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -17,6 +18,21 @@ function AddArticle() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axiosInstance.get(`/articles/${id}`);
+        setTitle(response.data.title);
+        setContent(response.data.content);
+        setImageUrl(response.data.imageUrl);
+        setTags(response.data.tags || []);
+      } catch (err) {
+        setError("Failed to fetch article data.");
+      }
+    };
+    fetchArticle();
+  }, [id]);
 
   const handleAddTag = () => {
     if (tagInput && !tags.includes(tagInput)) {
@@ -53,13 +69,10 @@ function AddArticle() {
 
     setLoading(true);
     try {
-      const response = await axiosInstance.post("/articles", articleData);
-
-      console.log("Article added:", response.data);
+      await axiosInstance.put(`/articles/${id}`, articleData);
       navigate("/articles");
-    } catch (err: any) {
-      console.error("Error:", err);
-      setError("Failed to add article. Please try again.");
+    } catch (err) {
+      setError("Failed to update article. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -70,7 +83,7 @@ function AddArticle() {
       <NavBar />
       <div style={{ paddingTop: "100px" }}>
         <AuthCard>
-          <h2>Add an Article</h2>
+          <h2>Update Article</h2>
           {error && <Message>{error}</Message>}
           <FormContainer onSubmit={handleSubmit}>
             <div>
@@ -111,7 +124,7 @@ function AddArticle() {
                 ))}
               </div>
             </div>
-            <AuthButton disabled={loading}>{loading ? "Adding..." : "Add Article"}</AuthButton>
+            <AuthButton disabled={loading}>{loading ? "Updating..." : "Update Article"}</AuthButton>
           </FormContainer>
         </AuthCard>
       </div>
@@ -119,4 +132,4 @@ function AddArticle() {
   );
 }
 
-export default AddArticle;
+export default UpdateArticle;
