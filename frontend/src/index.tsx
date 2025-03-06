@@ -36,7 +36,9 @@ function connectedRoute(route: React.ReactElement) {
 const queryClient = new QueryClient();
 
 root.render(
-  <ConfigProvider theme={{ token: { ...themeConfig } }}>
+  <ConfigProvider
+    theme={{ token: themeConfig, components: { Typography: {} } }}
+  >
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>

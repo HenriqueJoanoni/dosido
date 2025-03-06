@@ -1,7 +1,10 @@
-export const colorPrimary = "#EDDBC2";
+import { AliasToken } from "antd/es/theme/internal";
 
-export const themeConfig = {
+export const colorPrimary = "#FFF5E8";
+
+export const themeConfig: Partial<AliasToken> = {
   // Seed Token
   colorPrimary,
   colorSplit: "#1B1749",
+  fontFamily: "Alike",
 };

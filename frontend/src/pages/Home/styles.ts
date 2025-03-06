@@ -4,11 +4,14 @@ import { Divider, Flex, Typography } from "antd";
 
 export const Container = styled.div`
   background-color: ${colorPrimary};
-  min-height : 100vh;
-  margin : 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
-
+export const ScrollStyled = styled.div`
+  overflow-y: auto;
+`;
 
 export const ListContainer = styled.div`
   display: flex;

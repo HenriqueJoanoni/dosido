@@ -5,11 +5,13 @@ import { CardStyled, DateStyled } from "./styles";
 const ArticleListItem = ({
   article,
   onClick,
+  loading,
 }: {
-  article: IArticleListItem;
+  article?: IArticleListItem | null;
   onClick(): void;
+  loading?: boolean;
 }) => {
-  const { title, description, image } = article;
+  const { title, description, image, date } = article || {};
 
   return (
     <CardStyled
@@ -17,9 +19,10 @@ const ArticleListItem = ({
       style={{ width: "100%" }}
       cover={<img alt={title} src={image} />}
       onClick={onClick}
+      loading={loading}
     >
       <Meta title={title} description={description} />
-      <DateStyled>{article.date}</DateStyled>
+      <DateStyled>{date}</DateStyled>
     </CardStyled>
   );
 };

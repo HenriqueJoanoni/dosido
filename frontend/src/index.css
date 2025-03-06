@@ -19,5 +19,9 @@ h4,
 h3,
 h2,
 h1 {
-  font-family: "Anton SC";
+  font-family: "Anton SC" !important;
+}
+
+.ant-card-meta-title {
+  font-family: "Anton SC" !important;
 }
