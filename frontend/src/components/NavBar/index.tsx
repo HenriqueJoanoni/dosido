@@ -9,8 +9,6 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
     setExpanded(!expanded);
   };
 
-  console.log({ expanded });
-
   return (
     <div>
       <Container>
@@ -34,7 +32,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
           {!!onSearch && (
             <img src="/icons/search.svg" onClick={toggleExpandSearch} />
           )}
-       
+
           <Link to="/login">
             <img src="/icons/user.svg" />
           </Link>

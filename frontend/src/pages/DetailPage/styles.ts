@@ -5,6 +5,7 @@ import { Divider, Flex, Typography } from "antd";
 export const Container = styled.div`
   min-height: 100vh;
   background-color: ${colorPrimary};
+  position: relative;
 `;
 
 export const ImageStyled = styled.img`
@@ -19,5 +20,54 @@ export const ContentContainer = styled.div`
   h5 {
     margin-top: 0px;
     margin-bottom: 20px;
+  }
+
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+  }
+`;
+
+export const Description = styled(Typography)<{ $limitArticle: boolean }>`
+  ${({ $limitArticle }) =>
+    $limitArticle
+      ? `
+  
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  `
+      : ""}
+`;
+
+export const AuthContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+
+  &:after {
+    margin-top: -200px;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0)
+    );
+  }
+
+  button {
+    margin-top: 20px;
   }
 `;

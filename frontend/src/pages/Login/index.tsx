@@ -1,12 +1,19 @@
 // Login.tsx
 import React, { useState } from "react";
 import { Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import NavBar from "../../components/NavBar";
-import { AuthCard, Label, AuthButton, AuthLink, Message, FormContainer } from "./styles";
+import {
+  Label,
+  AuthLink,
+  Message,
+  FormContainer,
+  AuthCard,
+  AuthButton,
+} from "./styles";
+import { useCookies } from "react-cookie";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,6 +21,8 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["mycookie"]);
+  const [searchParams] = useSearchParams();
+  const articleId = searchParams.get("article");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,16 +31,19 @@ function Login() {
       setError("Invalid email or password.");
       return;
     }
-    axiosInstance.post("/login", { email, password }).then(({ data }) => {
-      document.cookie = "token=" + data.access_token;
-      navigate("/");
-    }).catch(() => setError("Invalid email or password."));
+    axiosInstance
+      .post("/login", { email, password })
+      .then(({ data }) => {
+        setCookie("mycookie", { token: data.access_token }, { path: "/" });
+        if (articleId) navigate(`/${articleId}`);
+        else navigate("/");
+      })
+      .catch(() => setError("Invalid email or password."));
   }
 
   return (
-   
     <Container>
-       <NavBar />
+      <NavBar />
       <div style={{ paddingTop: "100px" }}>
         <AuthCard>
           <h2>Login</h2>
@@ -39,11 +51,20 @@ function Login() {
           <FormContainer onSubmit={handleSubmit}>
             <div>
               <Label>Email</Label>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div>
               <Label>Password</Label>
-              <Input.Password value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input.Password
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
             <AuthButton type="submit">Log in</AuthButton>
           </FormContainer>

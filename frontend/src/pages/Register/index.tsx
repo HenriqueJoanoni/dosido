@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import NavBar from "../../components/NavBar";
-import { AuthCard, Label, AuthButton, AuthLink, Message, FormContainer } from "./styles";
+import {
+  AuthCard,
+  Label,
+  AuthButton,
+  AuthLink,
+  Message,
+  FormContainer,
+} from "./styles";
 
 function Register() {
   const [name, setName] = useState("");
@@ -16,11 +23,13 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["mycookie"]);
+  const [searchParams] = useSearchParams();
+  const articleId = searchParams.get("article");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    if (!email.includes("@") || password.length < 6) {
+    if (!email.includes("@") || password.length < 8) {
       setError("Invalid email or password.");
       return;
     }
@@ -30,9 +39,18 @@ function Register() {
     }
     setLoading(true);
     try {
-      const response = await axiosInstance.post("/register", { name, email, password });
-      setCookie("mycookie", { name, token: response.data.access_token }, { path: "/" });
-      navigate("/");
+      const response = await axiosInstance.post("/register", {
+        name,
+        email,
+        password,
+      });
+      setCookie(
+        "mycookie",
+        { token: response.data.access_token },
+        { path: "/" }
+      );
+      if (articleId) navigate(`/${articleId}`);
+      else navigate("/");
     } catch (err) {
       setError("Registration failed. Please try again.");
     } finally {
@@ -50,21 +68,43 @@ function Register() {
           <FormContainer onSubmit={handleSubmit}>
             <div>
               <Label>Name</Label>
-              <Input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </div>
             <div>
               <Label>Email</Label>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div>
               <Label>Password</Label>
-              <Input.Password value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <Input.Password
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+              />
             </div>
             <div>
               <Label>Confirm Password</Label>
-              <Input.Password value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+              <Input.Password
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                minLength={8}
+              />
             </div>
-            <AuthButton type="submit" disabled={loading}>{loading ? "Registering..." : "Register"}</AuthButton>
+            <AuthButton type="submit" disabled={loading}>
+              {loading ? "Registering..." : "Register"}
+            </AuthButton>
           </FormContainer>
           <AuthLink>
             <Link to="/login">Already have an account? Log in</Link>
