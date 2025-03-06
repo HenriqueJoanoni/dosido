@@ -29,7 +29,8 @@ Route::get('/articles/{id}', [ArticleController::class, 'getArticle']);
 Route::post('/article-create', [ArticleController::class,'storeArticle']);
 route::patch('/article-update/{id}',[ArticleController::class,'updateArticle']);
 
-
+Route::get('/categories', [ArticleController::class, 'getAllCategories']);
+Route::post('/category-create', [ArticleController::class, 'storeCategory']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [AuthController::class, 'logout']);

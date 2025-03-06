@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\GeneralHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,5 +79,29 @@ class ArticleController extends Controller
             return response()->json($article, 200);
         }
         return response()->json(['message' => 'Article not found'], 404);
+    }
+
+    /** CATEGORY CREATIONS */
+    public function getAllCategories(): JsonResponse
+    {
+        $categories = Category::all();
+        if ($categories) {
+            return response()->json($categories, 200);
+        }
+
+        return response()->json([], 404);
+    }
+
+    public function storeCategory(Request $request, int $catId = null): JsonResponse
+    {
+        if ($catId) {
+            return response()->json($catId, 200);
+        }
+
+        $category = Category::create([
+            'name' => $request['name'],
+        ]);
+
+        return response()->json($category, 200);
     }
 }
