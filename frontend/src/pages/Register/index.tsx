@@ -5,7 +5,6 @@ import { useCookies } from "react-cookie";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 
-
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +15,7 @@ function Register() {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["mycookie"]);
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setError("");
 
@@ -31,19 +30,19 @@ function Register() {
     }
 
     setLoading(true);
-    
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("password", password);
 
     try {
-      const response = await axiosInstance.post("/register", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const response = await axiosInstance.post("/register", {
+        name,
+        email,
+        password,
       });
-      
-      console.log("Registration successful", response.data);
-      setCookie("mycookie", { name, token: response.data.access_token }, { path: "/" });
+
+      setCookie(
+        "mycookie",
+        { name, token: response.data.access_token },
+        { path: "/" }
+      );
       navigate("/");
     } catch (err) {
       setError("Registration failed. Please try again.");
@@ -54,52 +53,52 @@ function Register() {
 
   return (
     <Container>
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
-      <h2>Register</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Name</label>
-          <Input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+      <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
+        <h2>Register</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Name</label>
+            <Input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Email</label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Password</label>
+            <Input.Password
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Confirm Password</label>
+            <Input.Password
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          <Button type="primary" htmlType="submit" block loading={loading}>
+            {loading ? "Registering..." : "Register"}
+          </Button>
+        </form>
+        <div style={{ marginTop: "10px" }}>
+          <Link to="/login">Already have an account? Log in</Link>
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Email</label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Password</label>
-          <Input.Password
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Confirm Password</label>
-          <Input.Password
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <Button type="primary" htmlType="submit" block loading={loading}>
-          {loading ? "Registering..." : "Register"}
-        </Button>
-      </form>
-      <div style={{ marginTop: "10px" }}>
-        <Link to="/login">Already have an account? Log in</Link>
       </div>
-    </div>
     </Container>
   );
 }

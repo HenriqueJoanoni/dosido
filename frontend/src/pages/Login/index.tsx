@@ -3,14 +3,30 @@ import { Input, Button } from "antd";
 import { Link } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
+<<<<<<< Updated upstream
 import { LoginCard, Label, LoginButton, AuthLink, Message, FormContainer } from "./styles";
 import {useNavigate} from 'react-router-dom';
+=======
+import {
+  LoginCard,
+  Label,
+  LoginButton,
+  AuthLink,
+  Message,
+  FormContainer,
+} from "./styles";
+import { useCookies } from "react-cookie";
+>>>>>>> Stashed changes
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+<<<<<<< Updated upstream
   const navigate = useNavigate()
+=======
+  const [cookies, setCookie] = useCookies(["mycookie"]);
+>>>>>>> Stashed changes
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>)  {
     e.preventDefault();
@@ -33,7 +49,7 @@ function Login() {
 
   return (
     <Container>
-      <div style={{ paddingTop: '100px' }}>
+      <div style={{ paddingTop: "100px" }}>
         <LoginCard>
           <h2>Login</h2>
           {error && <Message type="error">{error}</Message>}

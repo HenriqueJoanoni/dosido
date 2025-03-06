@@ -4,14 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api",
+<<<<<<< Updated upstream
   
 
+=======
+  headers: { "Content-Type": "application/json", Accept: "application/json" },
+>>>>>>> Stashed changes
 });
 
 const getArticles = async (search: string) => {
-  const { data } = await axiosInstance.get<IArticleListItem[]>(
-    "/articles", {headers: {'Content-Type': 'application/json', Accept: 'application/json'}, params: {search}}
-  );
+  const { data } = await axiosInstance.get<IArticleListItem[]>("/articles", {
+    params: { search },
+  });
 
   return data;
 };

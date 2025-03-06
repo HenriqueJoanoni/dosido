@@ -12,3 +12,12 @@ export const ImageStyled = styled.img`
   object-fit: cover;
   height: 200px;
 `;
+
+export const ContentContainer = styled.div`
+  padding: 20px;
+
+  h5 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+`;
