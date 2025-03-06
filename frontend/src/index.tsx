@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddArticles from "./pages/AddArticles";
+import UpdateArticles from "./pages/UpdateArticles";
 import reportWebVitals from "./reportWebVitals";
 import { Routes, Route, BrowserRouter, RouteObject } from "react-router-dom";
 import { ConfigProvider } from "antd";
@@ -48,6 +49,7 @@ root.render(
           <Route path="/register" element={<Register />} />
           <Route path="/:id" element={<DetailPage />} />
           <Route path="/addarticles" element={<AddArticles />} />
+          <Route path="/updatearticles" element={<UpdateArticles />} />
           {connectedRoute(<Route path="/test" element={<h4>Test</h4>} />)}
           <Route path="*" element={<p>Page Not Found</p>} />
 
