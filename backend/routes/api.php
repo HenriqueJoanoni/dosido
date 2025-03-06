@@ -23,8 +23,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/articles', [ArticleController::class, 'getAllArticles']);
-Route::get('/articles', [ArticleController::class, 'searchBar']);
-
 Route::get('/articles/{id}', [ArticleController::class, 'getArticle']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
