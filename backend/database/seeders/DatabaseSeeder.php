@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+         \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
@@ -32,14 +32,14 @@ class DatabaseSeeder extends Seeder
 //            'leadStory' => false
 //        ]);
 
-        $this->call([
+      /*  $this->call([
             CategorySeeder::class,
             ArticleSeeder::class,
         ]);
 
         $tag1 = Category::create(['name' => 'ecoal25']);
         $tag2 = Category::create(['name' => 'react']);
-
+*/
 //        $article->tags()->attach([$tag1->id, $tag2->id]);
 
     }
