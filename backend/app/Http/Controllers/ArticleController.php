@@ -56,4 +56,36 @@ class ArticleController extends Controller
 
         return response()->json([], 404);
     }
+
+    public function storeArticle(Request $request): JsonResponse
+    {
+        $article = Article::create([
+        'image' => $request->image,
+        'title' => $request->title,
+        'description'=> $request->description,
+        'date' => now(),
+        'categories' => $request->categories,
+        'premium'=>$request->premium,
+        ]);
+        $article->save();
+        return response()->json($article, 200);
+    }
+
+    public function updateArticle(Request $request, int $id): JsonResponse
+    {
+        $article = Article::where('id', $id)->first();
+        if ($article) {
+            $article->update([
+                'image' => $request->image,
+                'title' => $request->title,
+                'description'=> $request->description,
+                'date' => now(),
+                'categories' => $request->categories,
+                'premium'=>$request->premium,
+            ]);
+            return response()->json($article, 200);
+        }
+
+        return response()->json([], 404);
+    }
 }
