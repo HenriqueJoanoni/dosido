@@ -38,7 +38,7 @@ export const FormContainer = styled.form`
 
 export const AuthButton = styled(Button)`
   width: 100%;
-  background: #1890ff;
+  background: #1B1749;
   color: white;
   padding: 10px;
   font-size: 1rem;
