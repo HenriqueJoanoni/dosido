@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('image');
             $table->string('title');
-            $table->string('description');
+            $table->longtext('description');
             $table->string('date');
             $table->boolean('premium')->default(true);
             $table->timestamps();
