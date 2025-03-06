@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { colorPrimary } from "../../constants/theme";
-import { Divider, Flex, Typography } from "antd";
+import { Typography } from "antd";
 
 export const Container = styled.div`
-  min-height: 100vh;
   background-color: ${colorPrimary};
   position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ScrollStyled = styled.div`
+  overflow-y: auto;
 `;
 
 export const ImageStyled = styled.img`
