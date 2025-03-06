@@ -9,17 +9,35 @@ import {
   ImageStyled,
   ScrollStyled,
 } from "./styles";
-import { Typography } from "antd";
+import { Skeleton, Typography } from "antd";
 import Markdown from "react-markdown";
 import { useCookies } from "react-cookie";
 import { AuthButton, AuthLink } from "../Login/styles";
 
 const DetailPage = () => {
   const { id } = useParams();
-  const { data } = useGetArticleById(id || "");
+  const { data, isLoading } = useGetArticleById(id || "");
   const [cookies] = useCookies(["mycookie"]);
 
   const limitArticle = !cookies.mycookie;
+
+  if (isLoading)
+    return (
+      <Container>
+        <NavBar />
+        <Skeleton.Image style={{ width: "100vw", height: 200 }} />
+
+        <ContentContainer style={{ display: "flex", flexDirection: "column" }}>
+          <Skeleton.Input style={{ width: "80%" }} />
+          <Skeleton.Input style={{ width: "100%", marginTop: 10 }} />
+          <Skeleton.Input style={{ width: "100%", marginTop: 5 }} />
+          <Skeleton.Input style={{ width: "100%", marginTop: 5 }} />
+          <Skeleton.Input
+            style={{ width: "50%", marginTop: 5, marginBottom: 20 }}
+          />
+        </ContentContainer>
+      </Container>
+    );
 
   return (
     <Container>
