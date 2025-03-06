@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { Input, Tag, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Input, Tag, Select, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import NavBar from "../../components/NavBar";
 import { AuthCard, Label, AuthButton, Message, FormContainer } from "./styles";
-
-const predefinedTags = ["Technology", "Health", "Science", "Education", "Sports", "Entertainment"];
 
 function AddArticle() {
   const [title, setTitle] = useState("");
@@ -15,8 +13,23 @@ function AddArticle() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [error, setError] = useState("");
+  const [premium, setPremium] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetchedTags, setFetchedTags] = useState<{ id: number; name: string }[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const response = await axiosInstance.get("/categories");
+        setFetchedTags(response.data);
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+      }
+    };
+
+    fetchTags();
+  }, []);
 
   const handleAddTag = () => {
     if (tagInput && !tags.includes(tagInput)) {
@@ -44,22 +57,36 @@ function AddArticle() {
       return;
     }
 
-    const articleData = {
-      title,
-      content,
-      imageUrl,
-      tags,
-    };
-
-    setLoading(true);
     try {
-      const response = await axiosInstance.post("/articles", articleData);
+      setLoading(true);
+      const categoryPromises = tags.map(async (tagName) => {
+        const existingTag = fetchedTags.find(t => t.name === tagName);
+        if (existingTag) {
+          return existingTag.id;
+        } else {
+          const response = await axiosInstance.post("/category-create", {
+            name: tagName
+          });
+          return response.data.id;
+        }
+      });
 
+      const categoryIds = await Promise.all(categoryPromises);
+
+      const articleData = {
+        title: title,
+        description: content,
+        image: imageUrl,
+        categories: categoryIds,
+        premium: premium ? 1 : 0,
+      };
+
+      const response = await axiosInstance.post("/article-create", articleData);
       console.log("Article added:", response.data);
-      navigate("/articles");
+      navigate("/");
     } catch (err: any) {
       console.error("Error:", err);
-      setError("Failed to add article. Please try again.");
+      setError(err.response?.data?.message || "Failed to add article. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -86,6 +113,10 @@ function AddArticle() {
               <Input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Enter image URL" />
             </div>
             <div>
+                <Label>Premium</Label>
+                <Checkbox onChange={(e)=> setPremium(!premium)} checked={premium} />
+            </div>
+            <div>
               <Label>Tags</Label>
               <Input
                 type="text"
@@ -95,12 +126,14 @@ function AddArticle() {
                 placeholder="Add a tag and press Enter"
               />
               <Select
-                style={{ width: "100%", marginTop: "10px" }}
-                placeholder="Select a tag"
-                onChange={handleSelectTag}
+                  style={{ width: "100%", marginTop: "10px" }}
+                  placeholder="Select a tag"
+                  onChange={handleSelectTag}
               >
-                {predefinedTags.map(tag => (
-                  <Select.Option key={tag} value={tag}>{tag}</Select.Option>
+                {fetchedTags.map(tag => (
+                    <Select.Option key={tag.id} value={tag.name}>
+                      {tag.name}
+                    </Select.Option>
                 ))}
               </Select>
               <div style={{ marginTop: "10px" }}>
@@ -111,7 +144,7 @@ function AddArticle() {
                 ))}
               </div>
             </div>
-            <AuthButton disabled={loading}>{loading ? "Adding..." : "Add Article"}</AuthButton>
+            <AuthButton disabled={loading} type="submit">{loading ? "Adding..." : "Add Article"}</AuthButton>
           </FormContainer>
         </AuthCard>
       </div>
