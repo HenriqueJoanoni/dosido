@@ -1,19 +1,19 @@
+// styles.ts
 import styled from "styled-components";
 import { Card } from "antd";
 
-export const LoginCard = styled(Card)`
+export const AuthCard = styled(Card)`
   width: 100%;
   max-width: 400px;
   margin: auto;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
- 
+
   @media (max-width: 480px) {
     max-width: 90%;
     margin: auto;
     padding: 35px;
-  
   }
 `;
 
@@ -33,7 +33,7 @@ export const Message = styled.p<{ type: "success" | "error" }>`
   background: ${({ type }) => (type === "success" ? "#e6ffed" : "#ffe6e6")};
 `;
 
-export const LoginButton = styled.button`
+export const AuthButton = styled.button`
   width: 100%;
   padding: 12px;
   background-color: #1B1749;
@@ -70,4 +70,3 @@ export const AuthLink = styled.p`
     }
   }
 `;
-
