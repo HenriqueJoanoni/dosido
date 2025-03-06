@@ -4,23 +4,31 @@ import { Link } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import { LoginCard, Label, LoginButton, AuthLink, Message, FormContainer } from "./styles";
+import {useNavigate} from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>)  {
     e.preventDefault();
     setError("");
-
     if (!email.includes("@") || password.length < 6) {
       setError("Invalid email or password.");
       return;
     }
+  
+    //console.log("Login successful");
+    const response = await axiosInstance.post("/login", { email, password })
+    if(response.status === 401) {
+      setError("Invalid email or password.");
+      return;
+    }
+    document.cookie = "token=?" + response.data.access_token
+    navigate('/')
 
-    console.log("Login successful");
-    axiosInstance.post("/login", { email, password });
   };
 
   return (
@@ -49,7 +57,6 @@ function Login() {
             </div>
             <LoginButton>
               <Link to="/">Log in</Link>
-              
             </LoginButton>
           </FormContainer>
           <AuthLink>

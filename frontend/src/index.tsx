@@ -4,15 +4,34 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import reportWebVitals from "./reportWebVitals";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, RouteObject } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { themeConfig } from "./constants/theme";
 import DetailPage from "./pages/DetailPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+function getCookie(name:string) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+  return false
+}
+
+function isAuthenticated() {
+  return getCookie("token") != false
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+function connectedRoute(route: React.ReactElement) {
+  if(isAuthenticated()) return route
+  return (
+    null
+  )
+} 
 
 const queryClient = new QueryClient();
 
@@ -25,6 +44,9 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/:id" element={<DetailPage />} />
+          {connectedRoute(<Route path="/test" element={<h4>Test</h4>} />)}
+          <Route path="*" element={<p>Page Not Found</p>} />
+
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

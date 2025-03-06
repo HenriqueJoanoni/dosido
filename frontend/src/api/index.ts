@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api",
+  
+
 });
 
 const getArticles = async (search: string) => {
