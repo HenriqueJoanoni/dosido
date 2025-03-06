@@ -44,7 +44,7 @@ export const AuthButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #40a9ff;
+    background-color: #961919;
   }
 `;
 
