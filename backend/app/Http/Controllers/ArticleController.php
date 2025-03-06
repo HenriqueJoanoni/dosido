@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\GeneralHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\ArticleCategory;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -59,6 +60,11 @@ class ArticleController extends Controller
             'date' => now(),
             'categories' => $request->categories,
             'premium' => $request->premium,
+        ]);
+
+        ArticleCategory::create([
+            'article_id' => $article->id,
+            'category_id' => $request->categories[0]
         ]);
 
         return response()->json($article, 201);
