@@ -42,6 +42,10 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
     navigate("/addarticles");
   };
 
+  const redirectToHome = () => {
+    navigate("/");
+  };
+
   return (
     <div>
       <Container>
@@ -92,6 +96,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
             {
               key: "home",
               label: "Home",
+              onClick: redirectToHome,
             },
             {
               key: "music",
