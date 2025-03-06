@@ -22,7 +22,15 @@ const ArticleListItem = ({
       onClick={onClick}
       loading={loading}
     >
-      <Meta title={<><Tag color="#961919">{categories?.[0]?.name}</Tag>{title}</>}description={description}/>
+      <Meta
+        title={
+          <>
+            <Tag color="#961919">{categories?.[0]?.name}</Tag>
+            {title}
+          </>
+        }
+        description={description}
+      />
       <DateStyled>{date}</DateStyled>
     </CardStyled>
   );

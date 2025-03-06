@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, IconsContainer, LogoStyled, SearchStyled } from "./styles";
 import { useState } from "react";
 import { App, Drawer, Flex, Menu, Modal } from "antd";
 import { colorPrimary } from "../../constants/theme";
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogoutOutlined, EditOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
 
 const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
@@ -11,6 +11,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
   const [open, setOpen] = useState(false);
   const { modal } = App.useApp();
   const [cookies, , removeCookie] = useCookies(["mycookie"]);
+  const navigate = useNavigate();
 
   const showDrawer = () => {
     setOpen(true);
@@ -25,6 +26,10 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
   };
 
   console.log({ expanded });
+
+  const redirectToAddArticle = () => {
+    navigate("/addarticles");
+  };
 
   return (
     <div>
@@ -93,6 +98,18 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
               key: "history",
               label: "History",
             },
+            {
+              key: "contact",
+              label: "Contact",
+            },
+            !!cookies.mycookie
+              ? {
+                  key: "addarticle",
+                  label: "Add Article",
+                  icon: <EditOutlined />,
+                  onClick: redirectToAddArticle,
+                }
+              : [],
             !!cookies.mycookie
               ? {
                   key: "logout",

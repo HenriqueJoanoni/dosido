@@ -28,6 +28,18 @@ export const PreviewContentContainer = styled(Flex)`
 
   h5 {
     margin: 0px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  article {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 `;
 

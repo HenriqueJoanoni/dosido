@@ -11,6 +11,7 @@ import { App as AntdApp, ConfigProvider } from "antd";
 import { themeConfig } from "./constants/theme";
 import DetailPage from "./pages/DetailPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Contact from "./pages/Contact";
 
 function getCookie(name: string) {
   const value = `; ${document.cookie}`;
@@ -46,9 +47,10 @@ root.render(
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/:id" element={<DetailPage />} />
             <Route path="/addarticles" element={<AddArticles />} />
             <Route path="/updatearticles" element={<UpdateArticles />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/:id" element={<DetailPage />} />
             {connectedRoute(<Route path="/test" element={<h4>Test</h4>} />)}
             <Route path="*" element={<p>Page Not Found</p>} />
           </Routes>
