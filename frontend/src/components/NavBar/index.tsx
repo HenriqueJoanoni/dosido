@@ -24,18 +24,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
     setExpanded(!expanded);
   };
 
-  const showLogoutConfirm = (e: any) => {
-    modal.confirm({
-      title: "Are you sure?",
-      icon: null,
-      content: "You want to logout",
-      okText: "Yes",
-      cancelText: "No",
-      onOk: () => {
-        removeCookie("mycookie", { path: "/" });
-      },
-    });
-  };
+  console.log({ expanded });
 
   return (
     <div>

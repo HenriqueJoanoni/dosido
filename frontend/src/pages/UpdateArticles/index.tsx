@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "antd";
+import { Input, Tag, Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
 import NavBar from "../../components/NavBar";
 import { AuthCard, Label, AuthButton, Message, FormContainer } from "./styles";
 
+const predefinedTags = ["Technology", "Health", "Science", "Education", "Sports", "Entertainment"];
+
 function UpdateArticle() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -22,12 +25,31 @@ function UpdateArticle() {
         const response = await axiosInstance.get(`/articles/${id}`);
         setTitle(response.data.title);
         setContent(response.data.content);
+        setImageUrl(response.data.imageUrl);
+        setTags(response.data.tags || []);
       } catch (err) {
         setError("Failed to fetch article data.");
       }
     };
     fetchArticle();
   }, [id]);
+
+  const handleAddTag = () => {
+    if (tagInput && !tags.includes(tagInput)) {
+      setTags([...tags, tagInput]);
+      setTagInput("");
+    }
+  };
+
+  const handleRemoveTag = (removedTag: string) => {
+    setTags(tags.filter(tag => tag !== removedTag));
+  };
+
+  const handleSelectTag = (value: string) => {
+    if (!tags.includes(value)) {
+      setTags([...tags, value]);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,20 +60,17 @@ function UpdateArticle() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
-    if (image) {
-      formData.append("image", image);
-    }
+    const articleData = {
+      title,
+      content,
+      imageUrl,
+      tags,
+    };
 
     setLoading(true);
     try {
-      await axiosInstance.put(`/articles/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      navigate("/articles"); 
+      await axiosInstance.put(`/articles/${id}`, articleData);
+      navigate("/articles");
     } catch (err) {
       setError("Failed to update article. Please try again.");
     } finally {
@@ -76,10 +95,36 @@ function UpdateArticle() {
               <Input.TextArea value={content} onChange={(e) => setContent(e.target.value)} required />
             </div>
             <div>
-              <Label>Image (Optional)</Label>
-              <Input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
+              <Label>Image URL</Label>
+              <Input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Enter image URL" />
             </div>
-            <AuthButton  disabled={loading}>{loading ? "Updating..." : "Update Article"}</AuthButton>
+            <div>
+              <Label>Tags</Label>
+              <Input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onPressEnter={handleAddTag}
+                placeholder="Add a tag and press Enter"
+              />
+              <Select
+                style={{ width: "100%", marginTop: "10px" }}
+                placeholder="Select a tag"
+                onChange={handleSelectTag}
+              >
+                {predefinedTags.map(tag => (
+                  <Select.Option key={tag} value={tag}>{tag}</Select.Option>
+                ))}
+              </Select>
+              <div style={{ marginTop: "10px" }}>
+                {tags.map((tag) => (
+                  <Tag key={tag} closable onClose={() => handleRemoveTag(tag)}>
+                    {tag}
+                  </Tag>
+                ))}
+              </div>
+            </div>
+            <AuthButton disabled={loading}>{loading ? "Updating..." : "Update Article"}</AuthButton>
           </FormContainer>
         </AuthCard>
       </div>
