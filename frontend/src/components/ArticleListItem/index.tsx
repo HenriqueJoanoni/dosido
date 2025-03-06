@@ -1,6 +1,7 @@
 import Meta from "antd/es/card/Meta";
 import { IArticleListItem } from "../../modals";
 import { CardStyled, DateStyled } from "./styles";
+import { Tag } from "antd";
 
 const ArticleListItem = ({
   article,
@@ -11,7 +12,7 @@ const ArticleListItem = ({
   onClick(): void;
   loading?: boolean;
 }) => {
-  const { title, description, image, date } = article || {};
+  const { title, description, image, date, categories } = article || {};
 
   return (
     <CardStyled
@@ -21,7 +22,7 @@ const ArticleListItem = ({
       onClick={onClick}
       loading={loading}
     >
-      <Meta title={title} description={description} />
+      <Meta title={<><Tag color="#961919">{categories?.[0]?.name}</Tag>{title}</>}description={description}/>
       <DateStyled>{date}</DateStyled>
     </CardStyled>
   );

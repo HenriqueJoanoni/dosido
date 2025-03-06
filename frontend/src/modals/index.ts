@@ -4,5 +4,14 @@ export interface IArticleListItem {
   title: string;
   description: string;
   date: string;
-  categories: string[];
+  categories?: Array<{
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    pivot: {
+      article_id: number;
+      category_id: number;
+    };
+  }>;
 }
