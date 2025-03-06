@@ -36,7 +36,7 @@ export const FormContainer = styled.form`
   gap: 1rem;
 `;
 
-export const AuthButton = styled(Button)`
+export const AuthButton = styled.button`
   width: 100%;
   background: #1B1749;
   color: white;

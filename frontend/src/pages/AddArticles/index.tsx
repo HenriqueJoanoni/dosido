@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Tag, Select } from "antd";
+import { Input, Tag, Select, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../api";
 import { Container } from "../Home/styles";
@@ -15,6 +15,7 @@ function AddArticle() {
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
   const [error, setError] = useState("");
+  const [premium, setPremium] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -36,6 +37,7 @@ function AddArticle() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("dsqdsq")
     e.preventDefault();
     setError("");
 
@@ -43,20 +45,21 @@ function AddArticle() {
       setError("Title and content are required.");
       return;
     }
-
     const articleData = {
-      title,
-      content,
-      imageUrl,
-      tags,
+      title:title,
+      description:content,
+      image:imageUrl,
+    categories: tags,
+    premium : premium ? 1 : 0,
     };
 
     setLoading(true);
     try {
-      const response = await axiosInstance.post("/articles", articleData);
+        console.log(articleData);
+      const response = await axiosInstance.post("/article-create", articleData);
 
       console.log("Article added:", response.data);
-      navigate("/articles");
+      navigate("/");
     } catch (err: any) {
       console.error("Error:", err);
       setError("Failed to add article. Please try again.");
@@ -86,6 +89,10 @@ function AddArticle() {
               <Input type="text" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="Enter image URL" />
             </div>
             <div>
+                <Label>Premium</Label>
+                <Checkbox onChange={(e)=> setPremium(!premium)} checked={premium} />
+            </div>
+            <div>
               <Label>Tags</Label>
               <Input
                 type="text"
@@ -111,7 +118,7 @@ function AddArticle() {
                 ))}
               </div>
             </div>
-            <AuthButton disabled={loading}>{loading ? "Adding..." : "Add Article"}</AuthButton>
+            <AuthButton disabled={loading} type="submit">{loading ? "Adding..." : "Add Article"}</AuthButton>
           </FormContainer>
         </AuthCard>
       </div>
