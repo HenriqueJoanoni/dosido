@@ -25,6 +25,12 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/articles', [ArticleController::class, 'getAllArticles']);
 Route::get('/articles/{id}', [ArticleController::class, 'getArticle']);
 
+
+Route::post('/article-create', [ArticleController::class,'storeArticle']);
+route::patch('/article-update/{id}',[ArticleController::class,'updateArticle']);
+
+
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/logout', [AuthController::class, 'logout']);
 
