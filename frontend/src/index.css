@@ -20,8 +20,15 @@ h3,
 h2,
 h1 {
   font-family: "Anton SC" !important;
+  font-weight: 400 !important;
 }
 
 .ant-card-meta-title {
   font-family: "Anton SC" !important;
+  font-weight: 400 !important;
+}
+
+.ant-drawer-title {
+  font-family: "Anton SC" !important;
+  font-weight: 400 !important;
 }
