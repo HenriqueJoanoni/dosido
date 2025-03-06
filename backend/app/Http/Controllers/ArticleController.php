@@ -60,32 +60,31 @@ class ArticleController extends Controller
     public function storeArticle(Request $request): JsonResponse
     {
         $article = Article::create([
-        'image' => $request->image,
-        'title' => $request->title,
-        'description'=> $request->description,
-        'date' => now(),
-        'categories' => $request->categories,
-        'premium'=>$request->premium,
+            'image' => $request->image,
+            'title' => $request->title,
+            'description' => $request->description,
+            'date' => now(),
+            'categories' => $request->categories,
+            'premium' => $request->premium,
         ]);
-        $article->save();
-        return response()->json($article, 200);
+
+        return response()->json($article, 201);
     }
 
     public function updateArticle(Request $request, int $id): JsonResponse
     {
-        $article = Article::where('id', $id)->first();
+        $article = Article::find($id);
         if ($article) {
             $article->update([
                 'image' => $request->image,
                 'title' => $request->title,
-                'description'=> $request->description,
+                'description' => $request->description,
                 'date' => now(),
                 'categories' => $request->categories,
-                'premium'=>$request->premium,
+                'premium' => $request->premium,
             ]);
             return response()->json($article, 200);
         }
-
-        return response()->json([], 404);
+        return response()->json(['message' => 'Article not found'], 404);
     }
 }
