@@ -21,13 +21,13 @@ function Login() {
     }
   
     //console.log("Login successful");
-    const response = await axiosInstance.post("/login", { email, password })
-    if(response.status === 401) {
-      setError("Invalid email or password.");
-      return;
-    }
-    document.cookie = "token=?" + response.data.access_token
-    navigate('/')
+    axiosInstance.post("/login", { email, password }).then(({data})=>{
+
+      document.cookie = "token=?" + data.access_token
+      navigate('/')
+    }).catch(error =>
+      setError("Invalid email or password.")
+    );
 
   };
 
