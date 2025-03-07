@@ -46,6 +46,10 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
     navigate("/");
   };
 
+  const redirectToContact = () => {
+    navigate("/contact");
+  };
+
   return (
     <div>
       <Container>
@@ -117,6 +121,7 @@ const NavBar = ({ onSearch }: { onSearch?: (t: string) => void }) => {
             {
               key: "contact",
               label: "Contact",
+              onClick: redirectToContact,
             },
             !!cookies.mycookie
               ? {
